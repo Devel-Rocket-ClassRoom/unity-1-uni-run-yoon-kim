@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float width = 20.48f;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (transform.position.x < -width)
+        {
+            transform.position += new Vector3(width * 2f, 0, 0);
+        }
     }
 }
