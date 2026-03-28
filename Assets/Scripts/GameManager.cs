@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,5 +50,23 @@ public class GameManager : MonoBehaviour
     {
         IsGameOver = true;
         gameOverUI.SetActive(true);
+    }
+
+    public void StartBooster()
+    {
+        StartCoroutine(BoosterRoutine());
+    }
+
+    private IEnumerator BoosterRoutine()
+    {
+        // 부스터 시작
+        energyBar.SetInvincible(true);
+        ScrollingObject.speed = 20f;
+
+        yield return new WaitForSeconds(4f); // 4초 대기
+
+        // 부스터 종료
+        energyBar.SetInvincible(false);
+        ScrollingObject.speed = 10f; // 원래 속도로
     }
 }

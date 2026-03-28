@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class EnergyBar : MonoBehaviour
 {
-    private Slider slider;
+    public Slider slider;
+    private bool isInvincible = false;
+    private Image fillImage;
+    private Color originalColor;
 
     void Awake()
     {
@@ -14,16 +17,30 @@ public class EnergyBar : MonoBehaviour
     void Start()
     {
         slider.value = slider.maxValue;
+        fillImage = slider.fillRect.GetComponent<Image>();
+        originalColor = fillImage.color;
     }
 
     public void Add(float amount)
     {
-        slider.value = Mathf.Clamp(slider.value + amount, 0, slider.maxValue);
+        if (!isInvincible)
+        {
+            slider.value = Mathf.Clamp(slider.value + amount, 0, slider.maxValue);
+        }
     }
 
     public void Sub(float amount)
     {
-        slider.value = Mathf.Clamp(slider.value - amount, 0, slider.maxValue);
+        if (!isInvincible)
+        {
+            slider.value = Mathf.Clamp(slider.value - amount, 0, slider.maxValue);
+        }
+    }
+
+    public void SetInvincible(bool active)
+    {
+        isInvincible = active;
+        fillImage.color = active ? new Color32(0, 255, 189, 255) : originalColor;
     }
 
     public bool IsEmpty() => slider.value <= 0;
