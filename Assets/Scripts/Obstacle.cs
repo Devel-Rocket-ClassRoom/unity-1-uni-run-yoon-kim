@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Obstacle : MonoBehaviour
 {
     private GameManager gameManager;
 
@@ -13,16 +13,15 @@ public class Coin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            gameManager.AddScore(10);
-            Destroy(gameObject);
-            gameManager.energyBar.Add(1f);
+            //gameManager.OnPlayerDead();
+            gameManager.energyBar.Sub(10f);
         }
     }
 }

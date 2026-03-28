@@ -4,34 +4,32 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject[] platformPrefabs = new GameObject[3];
+    public GameObject startPlatform;
     private int count;
 
-    private float spawnTime = 1.6f;
-    private float spawnTimer = 0f;
-    private float posX;
-    private float posY;
+    private float spawnPosX;
+    private float spawnPosY;
     private GameObject newTile;
     private GameObject oldTile;
     private int index;
 
     private void Start()
     {
-        posX = 15.3f;
-        posY = -4;
+        spawnPosX = 18.4f;
+        spawnPosY = -4;
         count = 3;
-        oldTile = Instantiate(platformPrefabs[0], new Vector3(posX, posY, 0), transform.rotation);
+        Destroy(startPlatform, 4f);
+        newTile = Instantiate(platformPrefabs[0], new Vector3(spawnPosX, spawnPosY, 0), transform.rotation);
     }
 
     private void Update()
     {
-        if (spawnTimer > spawnTime)
+        if (newTile.transform.position.x < 0)
         {
             index = Random.Range(0, count);
+            Destroy(oldTile);
             oldTile = newTile;
-            newTile = Instantiate(platformPrefabs[index], new Vector3(posX, posY, 0), transform.rotation);
-            spawnTimer = 0;
+            newTile = Instantiate(platformPrefabs[index], new Vector3(spawnPosX, spawnPosY, 0), transform.rotation);
         }
-
-        spawnTimer += Time.deltaTime;
     }
 }

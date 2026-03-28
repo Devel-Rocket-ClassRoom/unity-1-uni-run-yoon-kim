@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Dead") && !isDead)
         {
             Die();
+            gameManager.energyBar.Sub(100f);
         }
     }
 
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         playerRigidBody.linearVelocity = Vector2.zero;
         playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
