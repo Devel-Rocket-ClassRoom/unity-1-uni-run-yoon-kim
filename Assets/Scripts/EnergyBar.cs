@@ -7,6 +7,7 @@ public class EnergyBar : MonoBehaviour
     private bool isInvincible = false;
     private Image fillImage;
     private Color originalColor;
+    private bool isBooster = false;
 
     void Awake()
     {
@@ -43,5 +44,15 @@ public class EnergyBar : MonoBehaviour
         fillImage.color = active ? new Color32(0, 255, 189, 255) : originalColor;
     }
 
+    public void SetBooster(bool active)
+    {
+        isBooster = active;
+        SetInvincible(active);
+    }
+
     public bool IsEmpty() => slider.value <= 0;
+
+    public bool IsInvincible() => isInvincible;
+
+    public bool IsBooster() => isBooster;
 }

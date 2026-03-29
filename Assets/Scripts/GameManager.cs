@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public EnergyBar energyBar;
     public PlayerController player;
+    private Coroutine boosterCoroutine;
 
     private int score = 0;
     public bool IsGameOver { get; private set; }
@@ -54,19 +55,25 @@ public class GameManager : MonoBehaviour
 
     public void StartBooster()
     {
-        StartCoroutine(BoosterRoutine());
+        if (boosterCoroutine != null)
+            StopCoroutine(boosterCoroutine);
+
+        boosterCoroutine = StartCoroutine(BoosterRoutine());
     }
 
     private IEnumerator BoosterRoutine()
     {
         // 부스터 시작
-        energyBar.SetInvincible(true);
+        energyBar.SetBooster(true); // SetInvincible도 같이 true
         ScrollingObject.speed = 20f;
+        player.SetAnimationSpeed(2f);
 
-        yield return new WaitForSeconds(4f); // 4초 대기
-
+        yield return new WaitForSeconds(4f);
+        
         // 부스터 종료
-        energyBar.SetInvincible(false);
-        ScrollingObject.speed = 10f; // 원래 속도로
+        energyBar.SetBooster(false); // SetInvincible도 같이 false
+        ScrollingObject.speed = 10f;
+        player.SetAnimationSpeed(1f);
+        boosterCoroutine = null;
     }
 }

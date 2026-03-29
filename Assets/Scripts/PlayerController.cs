@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private CircleCollider2D runCollider;
     private BoxCollider2D slideCollider;
+    private SpriteRenderer spriteRenderer;
 
     private List<Collision2D> platformList;
 
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         runCollider = GetComponent<CircleCollider2D>();
         slideCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         platformList = new List<Collision2D>();
     }
 
@@ -117,6 +120,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void StartInvincible()
+    {
+        if (!gameManager.energyBar.IsInvincible())
+            StartCoroutine(InvincibleRoutine());
+    }
+
+    private IEnumerator InvincibleRoutine()
+    {
+        gameManager.energyBar.SetInvincible(true); // EnergyBar에 위임
+
+        float duration = 3f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+        }
+
+        spriteRenderer.enabled = true;
+        gameManager.energyBar.SetInvincible(false);
+    }
+
     public void Die()
     {
         playerRigidBody.linearVelocity = Vector2.zero;
@@ -125,5 +152,10 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Die");
         ScrollingObject.speed = 0f;
         gameManager.OnPlayerDead();
+    }
+
+    public void SetAnimationSpeed(float speed)
+    {
+        animator.speed = speed;
     }
 }
