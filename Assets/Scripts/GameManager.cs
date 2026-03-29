@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        energyBar.Sub(3f * Time.deltaTime);
+        energyBar.Sub(5f * Time.deltaTime);
 
         if (energyBar.IsEmpty())
         {
