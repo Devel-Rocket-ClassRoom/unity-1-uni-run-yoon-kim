@@ -69,10 +69,10 @@ public class GameManager : MonoBehaviour
         player.SetAnimationSpeed(2f);
 
         yield return new WaitForSeconds(4f);
-        
+
         // 부스터 종료
         energyBar.SetBooster(false); // SetInvincible도 같이 false
-        ScrollingObject.speed = 10f;
+        ScrollingObject.speed = 8f;
         player.SetAnimationSpeed(1f);
         boosterCoroutine = null;
     }
