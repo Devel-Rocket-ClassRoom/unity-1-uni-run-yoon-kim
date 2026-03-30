@@ -69,8 +69,11 @@ public class PlayerController : MonoBehaviour
 
         if (isSlide)
         {
-            slideCollider.enabled = true;
-            runCollider.enabled = false;
+            if (isGrounded)
+            {
+                slideCollider.enabled = true;
+                runCollider.enabled = false;
+            }
         }
         else
         {
